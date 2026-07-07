@@ -33,10 +33,11 @@ scapy==2.5.0         # Network packet manipulation
 
 ### Installation
 
-Method 1: Automated Installation (Recommended)
+## Method 1: Automated Installation (Recommended)
 
 # Clone the repository
-git clone https://github.com/yourusername/network-vulnerability-scanner.git
+git clone https://github.com/Kaintura-Priyanshu/Net-vuln-scanner.git
+
 cd network-vulnerability-scanner
 
 # Make installation script executable
@@ -97,7 +98,7 @@ sudo python3 scanner.py scanme.nmap.org -v
 # Full scan with all options
 sudo python3 scanner.py 192.168.1.100 -p 1-65535 -v
 
-## 🔍 Scan Capabilities
+## Scan Capabilities
 
 ### Detected Vulnerabilities
 
@@ -140,7 +141,8 @@ The scanner provides color-coded output for easy reading:
 
 🔵 Cyan - Progress updates
 
-JSON Report
+## JSON Report
+
 Each scan generates a JSON report with the following structure:
 
 json
@@ -179,6 +181,7 @@ Location: Current working directory
 
 ## Scanner Banner
 
+```bash
 ╔══════════════════════════════════════════════════════════╗
 ║     Network Vulnerability Scanner v1.0                  ║
 ║     Kali Linux Security Tool                            ║
@@ -186,6 +189,7 @@ Location: Current working directory
 Target: 192.168.1.100
 Time: 2026-01-06 14:30:22
 ============================================================
+```
 
 ## Scan in Progress
 text
@@ -201,6 +205,7 @@ text
 
 ##Scan Report
 
+```bash
 ============================================================
 SCAN REPORT
 ============================================================
@@ -224,11 +229,11 @@ Vulnerabilities Found: 2
 
 [+] Report saved to: scan_report_192.168.1.100_20260106_143022.json
 
-
-# Development Setup
+```
+### Development Setup
 
 # Clone your fork
-git clone https://github.com/yourusername/network-vulnerability-scanner.git
+git clone https://github.com/Kaintura-Priyanshu/Net-vuln-scanner.git
 
 # Install development dependencies
 pip3 install -r requirements.txt
@@ -275,7 +280,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 # Changelog
+
 Version 1.0 
+
 ✅ Initial release
 
 ✅ Port scanning with multi-threading
@@ -305,7 +312,6 @@ Add XSS vulnerability scanning
 Implement automated remediation suggestions
 
 Add HTML/PDF report generation
-
 
 
 
