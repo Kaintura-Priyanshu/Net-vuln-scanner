@@ -3,14 +3,10 @@ import socket
 import sys
 import threading
 import time
-import subprocess
 import json
 import os
 from datetime import datetime
 from colorama import init, Fore, Style
-import nmap
-import requests
-from scapy.all import *
 import argparse
 
 # Initialize colorama for colored output
@@ -53,7 +49,7 @@ class NetworkVulnerabilityScanner:
             27017: 'MongoDB'
         }
         
-        # Vulnerability signatures (simplified)
+        # Vulnerability signatures
         self.vulnerability_signatures = {
             '21': ['vsftpd 2.3.4', 'proftpd 1.3.3c'],
             '80': ['Apache/2.2.8', 'nginx/1.0.15', 'IIS/6.0'],
@@ -66,7 +62,7 @@ class NetworkVulnerabilityScanner:
         """Display tool banner"""
         banner_text = f"""
 {Fore.GREEN}╔══════════════════════════════════════════════════════════╗
-{Fore.GREEN}║     {Fore.YELLOW}Network Vulnerability Scanner v1.0{Fore.GREEN}          ║
+{Fore.GREEN}║     {Fore.YELLOW}Network Vulnerability Scanner v2.0{Fore.GREEN}          ║
 {Fore.GREEN}║     {Fore.CYAN}Kali Linux Security Tool{Fore.GREEN}                     ║
 {Fore.GREEN}╚══════════════════════════════════════════════════════════╝
 {Fore.WHITE}Target: {Fore.YELLOW}{self.target}
@@ -105,7 +101,7 @@ class NetworkVulnerabilityScanner:
                     except:
                         pass
                 sock.close()
-            except Exception as e:
+            except Exception:
                 pass
         
         # Create threads for scanning
@@ -132,9 +128,10 @@ class NetworkVulnerabilityScanner:
     def get_banner(self, host, port, timeout=5):
         """Get service banner from port"""
         try:
+            # Check if requests is available for HTTP
             if port in [80, 443, 8080, 8443]:
-                # HTTP/HTTPS
                 try:
+                    import requests
                     protocol = 'https' if port in [443, 8443] else 'http'
                     response = requests.get(f'{protocol}://{host}:{port}', timeout=timeout, verify=False)
                     server_header = response.headers.get('Server', '')
@@ -202,44 +199,47 @@ class NetworkVulnerabilityScanner:
         """Check for web vulnerabilities"""
         print(f"{Fore.YELLOW}[*] Checking web vulnerabilities...")
         
-        # Check for common web vulnerabilities
-        for port in [80, 443, 8080, 8443]:
-            if port in self.results['open_ports']:
-                protocol = 'https' if port in [443, 8443] else 'http'
-                url = f'{protocol}://{self.target}:{port}'
-                
-                try:
-                    # Check for directory listing
-                    response = requests.get(f'{url}/', timeout=5, verify=False)
-                    if 'Index of /' in response.text:
-                        vuln = {
-                            'port': port,
-                            'service': self.common_ports.get(port, 'Unknown'),
-                            'vulnerability': 'Directory listing enabled',
-                            'severity': 'Medium',
-                            'recommendation': 'Disable directory listing'
-                        }
-                        self.results['vulnerabilities'].append(vuln)
-                        print(f"{Fore.RED}[!] Directory listing enabled on {url}")
+        try:
+            import requests
+            # Check for common web vulnerabilities
+            for port in [80, 443, 8080, 8443]:
+                if port in self.results['open_ports']:
+                    protocol = 'https' if port in [443, 8443] else 'http'
+                    url = f'{protocol}://{self.target}:{port}'
                     
-                    # Check for default pages
-                    default_pages = ['/default.asp', '/default.aspx', '/index.html', '/index.php']
-                    for page in default_pages:
-                        try:
-                            resp = requests.get(f'{url}{page}', timeout=3, verify=False)
-                            if resp.status_code == 200:
-                                print(f"{Fore.YELLOW}[*] Found page: {page}")
-                        except:
-                            pass
-                            
-                except Exception as e:
-                    pass
+                    try:
+                        # Check for directory listing
+                        response = requests.get(f'{url}/', timeout=5, verify=False)
+                        if 'Index of /' in response.text:
+                            vuln = {
+                                'port': port,
+                                'service': self.common_ports.get(port, 'Unknown'),
+                                'vulnerability': 'Directory listing enabled',
+                                'severity': 'Medium',
+                                'recommendation': 'Disable directory listing'
+                            }
+                            self.results['vulnerabilities'].append(vuln)
+                            print(f"{Fore.RED}[!] Directory listing enabled on {url}")
+                        
+                        # Check for default pages
+                        default_pages = ['/default.asp', '/default.aspx', '/index.html', '/index.php']
+                        for page in default_pages:
+                            try:
+                                resp = requests.get(f'{url}{page}', timeout=3, verify=False)
+                                if resp.status_code == 200:
+                                    print(f"{Fore.YELLOW}[*] Found page: {page}")
+                            except:
+                                pass
+                                
+                    except Exception:
+                        pass
+        except ImportError:
+            print(f"{Fore.YELLOW}[!] Requests module not installed. Skipping web checks.")
 
     def check_smb_vulnerabilities(self):
         """Check for SMB vulnerabilities"""
         print(f"{Fore.YELLOW}[*] Checking SMB vulnerabilities...")
         # Check for known SMB vulnerabilities (EternalBlue, etc.)
-        # This would typically use nmap scripts or specialized tools
         print(f"{Fore.YELLOW}[*] SMB vulnerability check requires additional tools")
 
     def check_mysql_vulnerabilities(self):
@@ -252,6 +252,7 @@ class NetworkVulnerabilityScanner:
         """Perform advanced scan using nmap"""
         print(f"{Fore.CYAN}[*] Running Nmap scan for detailed information...")
         try:
+            import nmap
             nm = nmap.PortScanner()
             nm.scan(self.target, arguments='-sV -sC -O')
             
@@ -271,6 +272,8 @@ class NetworkVulnerabilityScanner:
                                 'product': service_info.get('product', ''),
                                 'banner': service_info.get('extrainfo', '')
                             }
+        except ImportError:
+            print(f"{Fore.YELLOW}[!] Python-nmap not installed. Skipping Nmap scan.")
         except Exception as e:
             print(f"{Fore.RED}[-] Nmap scan error: {e}")
 
@@ -319,10 +322,13 @@ class NetworkVulnerabilityScanner:
                 print(f"      {Fore.CYAN}Recommendation: {vuln['recommendation']}")
         
         # Save to file
-        filename = f"scan_report_{self.target}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        with open(filename, 'w') as f:
-            json.dump(self.results, f, indent=2)
-        print(f"\n{Fore.GREEN}[+] Report saved to: {filename}")
+        try:
+            filename = f"scan_report_{self.target}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+            with open(filename, 'w') as f:
+                json.dump(self.results, f, indent=2)
+            print(f"\n{Fore.GREEN}[+] Report saved to: {filename}")
+        except Exception as e:
+            print(f"{Fore.RED}[-] Could not save report: {e}")
 
     def run(self):
         """Main execution method"""
@@ -363,19 +369,6 @@ def main():
     # Check if running on Kali Linux
     if not os.path.exists('/etc/kali-version'):
         print(f"{Fore.YELLOW}[!] Warning: This tool is optimized for Kali Linux")
-    
-    # Check for required dependencies
-    try:
-        import nmap
-    except ImportError:
-        print(f"{Fore.RED}[-] Python-nmap not installed. Install with: pip install python-nmap")
-        sys.exit(1)
-    
-    try:
-        from scapy.all import *
-    except ImportError:
-        print(f"{Fore.RED}[-] Scapy not installed. Install with: pip install scapy")
-        sys.exit(1)
     
     # Create scanner instance
     scanner = NetworkVulnerabilityScanner(args.target)
