@@ -45,8 +45,9 @@ chmod +x install_scanner.sh
 
 # Run installation
 sudo ./install_scanner.sh
-Method 2: Manual Installation
-bash
+
+## Method 2: Manual Installation
+
 # Install Python dependencies
 pip3 install -r requirements.txt
 
@@ -140,44 +141,6 @@ The scanner provides color-coded output for easy reading:
 🟡 Yellow - Warnings and information
 
 🔵 Cyan - Progress updates
-
-## JSON Report
-
-Each scan generates a JSON report with the following structure:
-
-json
-{
-  "target": "192.168.1.100",
-  "scan_time": "2026-01-06T14:30:22.123456",
-  "open_ports": [21, 22, 80, 443],
-  "services": {
-    "21": {
-      "service": "FTP",
-      "banner": "vsftpd 2.3.4"
-    }
-  },
-  "vulnerabilities": [
-    {
-      "port": 21,
-      "service": "FTP",
-      "vulnerability": "Potential vulnerability: vsftpd 2.3.4",
-      "severity": "High",
-      "recommendation": "Update to latest version"
-    }
-  ],
-  "os_info": "Linux 2.6.32",
-  "network_info": {
-    "hostname": "target-host.local",
-    "aliases": [],
-    "ip": "192.168.1.100"
-  }
-}
-Report Files
-Format: JSON
-
-Naming: scan_report_[target]_[timestamp].json
-
-Location: Current working directory
 
 ## Scanner Banner
 
@@ -278,26 +241,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-# Changelog
-
-Version 1.0 
-
-✅ Initial release
-
-✅ Port scanning with multi-threading
-
-✅ Service banner grabbing
-
-✅ Vulnerability detection
-
-✅ Web vulnerability scanning
-
-✅ Nmap integration
-
-✅ JSON reporting
-
-✅ Color-coded console output
 
 # Future Plans
 
