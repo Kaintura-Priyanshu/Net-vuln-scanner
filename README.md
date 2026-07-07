@@ -97,30 +97,36 @@ sudo python3 scanner.py scanme.nmap.org -v
 # Full scan with all options
 sudo python3 scanner.py 192.168.1.100 -p 1-65535 -v
 
-#  Scan Capabilities
-Detected Vulnerabilities
-Category	Vulnerabilities	Severity
-FTP	vsftpd 2.3.4 (Backdoor), ProFTPD 1.3.3c (RCE)	🔴 High
-Web	Apache 2.2.8, nginx 1.0.15, IIS 6.0	🟠 Medium
-SSL/TLS	OpenSSL 1.0.1 (Heartbleed), OpenSSL 1.0.2a	🔴 High
-SSH	OpenSSH 4.7, OpenSSH 5.1	🔴 High
-MySQL	MySQL 5.0, MySQL 5.1	🟠 Medium
-SMB	EternalBlue (MS17-010)	🔴 High
-Web	Directory Listing Enabled	🟠 Medium
-Web	Default Pages Exposed	🟡 Low
-Ports Scanned by Default
-Port	Service	Port	Service
-21	FTP	443	HTTPS
-22	SSH	445	SMB
-23	Telnet	993	IMAPS
-25	SMTP	995	POP3S
-53	DNS	1723	PPTP
-80	HTTP	3306	MySQL
-110	POP3	3389	RDP
-111	RPCbind	5432	PostgreSQL
-135	MSRPC	5900	VNC
-139	NetBIOS	6379	Redis
-143	IMAP	27017	MongoDB
+## 🔍 Scan Capabilities
+
+### Detected Vulnerabilities
+
+| Category | Vulnerabilities | Severity |
+| :--- | :--- | :--- |
+| **FTP** | vsftpd 2.3.4 (Backdoor), ProFTPD 1.3.3c (RCE) | 🔴 High |
+| **Web** | Apache 2.2.8, nginx 1.0.15, IIS 6.0 | 🟠 Medium |
+| **SSL/TLS** | OpenSSL 1.0.1 (Heartbleed), OpenSSL 1.0.2a | 🔴 High |
+| **SSH** | OpenSSH 4.7, OpenSSH 5.1 | 🔴 High |
+| **MySQL** | MySQL 5.0, MySQL 5.1 | 🟠 Medium |
+| **SMB** | EternalBlue (MS17-010) | 🔴 High |
+| **Web** | Directory Listing Enabled | 🟠 Medium |
+| **Web** | Default Pages Exposed | 🟡 Low |
+
+### Ports Scanned by Default
+
+| Port | Service | Port | Service |
+| :--- | :--- | :--- | :--- |
+| **21** | FTP | **443** | HTTPS |
+| **22** | SSH | **445** | SMB |
+| **23** | Telnet | **993** | IMAPS |
+| **25** | SMTP | **995** | POP3S |
+| **53** | DNS | **1723** | PPTP |
+| **80** | HTTP | **3306** | MySQL |
+| **110** | POP3 | **3389** | RDP |
+| **111** | RPCbind | **5432** | PostgreSQL |
+| **135** | MSRPC | **5900** | VNC |
+| **139** | NetBIOS | **6379** | Redis |
+| **143** | IMAP | **27017** | MongoDB |
 
 # Output & Reports
 
@@ -171,6 +177,7 @@ Naming: scan_report_[target]_[timestamp].json
 
 Location: Current working directory
 
+## Scanner Banner
 
 ╔══════════════════════════════════════════════════════════╗
 ║     Network Vulnerability Scanner v1.0                  ║
@@ -179,7 +186,8 @@ Location: Current working directory
 Target: 192.168.1.100
 Time: 2026-01-06 14:30:22
 ============================================================
-Scan in Progress
+
+## Scan in Progress
 text
 [*] Performing network reconnaissance...
 [+] Hostname: target-host.local
@@ -190,8 +198,9 @@ text
 [+] Port 80 (HTTP) is open
 [!] VULNERABILITY DETECTED on port 21: vsftpd 2.3.4
 [!] VULNERABILITY DETECTED on port 80: Apache/2.2.8
-Scan Report
-text
+
+##Scan Report
+
 ============================================================
 SCAN REPORT
 ============================================================
@@ -216,22 +225,8 @@ Vulnerabilities Found: 2
 [+] Report saved to: scan_report_192.168.1.100_20260106_143022.json
 
 
-# Contributing
-Contributions are welcome! Please follow these steps:
-
-Fork the repository
-
-Create a feature branch (git checkout -b feature/AmazingFeature)
-
-Commit your changes (git commit -m 'Add some AmazingFeature')
-
-Push to the branch (git push origin feature/AmazingFeature)
-
-Open a Pull Request
-
 # Development Setup
 
-bash
 # Clone your fork
 git clone https://github.com/yourusername/network-vulnerability-scanner.git
 
@@ -257,7 +252,7 @@ IMPORTANT: This tool is intended for educational purposes and authorized securit
 The authors are not responsible for any misuse or damage caused by this tool. By using this tool, you agree to take full responsibility for your actions.
 
 
-MIT License
+## MIT License
 
 Copyright (c) 2026 Security Scanner Tool
 
