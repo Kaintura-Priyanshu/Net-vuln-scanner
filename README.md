@@ -189,67 +189,42 @@ sudo python3 scanner.py [ip] -p 1-65535 -v
 ║     Network Vulnerability Scanner v2.0                  ║
 ║     Kali Linux Security Tool                            ║
 ╚══════════════════════════════════════════════════════════╝
-
 Target: 192.168.1.48
-
 Time: 2026-01-08 14:30:22
-
 ============================================================
 
 [*] Performing network reconnaissance...
-
 [+] Hostname: target-host.local
 
-
-[*] Starting port scan on [ip]...
-
+[*] Starting port scan on 192.168.1.48...
 [+] Port 21 (FTP) is open
-
 [+] Port 22 (SSH) is open
-
 [+] Port 80 (HTTP) is open
-
 [!] VULNERABILITY DETECTED on port 21: vsftpd 2.3.4
-
 [!] VULNERABILITY DETECTED on port 80: Apache/2.2.8
 
-
 [*] Running Nmap scan for detailed information...
-
 [+] OS Detection: Linux 2.6.32
 
 ============================================================
 SCAN REPORT
 ============================================================
-
-Target: [ip]
-
+Target: 192.168.1.48
 Scan Time: 2026-01-08 14:30:22
-
 Operating System: Linux 2.6.32
-
 Hostname: target-host.local
 
 Open Ports: 3
- 
   [21] FTP - vsftpd 2.3.4
-  
   [22] SSH - OpenSSH 4.7
-  
   [80] HTTP - Apache/2.2.8
 
 Vulnerabilities Found: 2
-  
   [!] Port 21: Potential vulnerability: vsftpd 2.3.4
-      
       Severity: High
-      
       Recommendation: Update to latest version
-  
   [!] Port 80: Potential vulnerability: Apache/2.2.8
-      
       Severity: High
-      
       Recommendation: Update to latest version
 
 [+] Report saved to: scan_report_192.168.1.48_20260108_143022.json
