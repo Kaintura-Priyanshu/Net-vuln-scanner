@@ -71,10 +71,10 @@ chmod +x scanner.py
 
 ```bash
 # Scan a single host
-sudo python3 scanner.py 192.168.1.48
+sudo python3 scanner.py [ip]
 
 # Scan with custom ports
-sudo python3 scanner.py 192.168.1.48 -p 1-1000
+sudo python3 scanner.py [ip] -p 1-1000
 
 # Verbose mode
 sudo python3 scanner.py example.com -v
@@ -84,10 +84,10 @@ sudo python3 scanner.py example.com -v
 
 ```bash
 # Scan a single host
-sudo python3 scanner.py 192.168.1.48
+sudo python3 scanner.py [ip]
 
 # Scan with custom ports
-sudo python3 scanner.py 192.168.1.48 -p 1-1000
+sudo python3 scanner.py [ip] -p 1-1000
 
 # Verbose mode
 sudo python3 scanner.py example.com -v
@@ -185,18 +185,21 @@ sudo python3 scanner.py [ip] -p 1-65535 -v
 
 ### Console Output Example
 
-╔══════════════════════════════════════════════════════════╗
-║     Network Vulnerability Scanner v2.0                  ║
-║     Kali Linux Security Tool                            ║
-╚══════════════════════════════════════════════════════════╝
-Target: 192.168.1.48
+## Output Example
+
+```text
+============================================================
+     Network Vulnerability Scanner v2.0
+     Kali Linux Security Tool
+============================================================
+Target: [ip]
 Time: 2026-01-08 14:30:22
 ============================================================
 
 [*] Performing network reconnaissance...
 [+] Hostname: target-host.local
 
-[*] Starting port scan on 192.168.1.48...
+[*] Starting port scan on [ip]...
 [+] Port 21 (FTP) is open
 [+] Port 22 (SSH) is open
 [+] Port 80 (HTTP) is open
@@ -209,7 +212,7 @@ Time: 2026-01-08 14:30:22
 ============================================================
 SCAN REPORT
 ============================================================
-Target: 192.168.1.48
+Target: [ip]
 Scan Time: 2026-01-08 14:30:22
 Operating System: Linux 2.6.32
 Hostname: target-host.local
@@ -227,7 +230,8 @@ Vulnerabilities Found: 2
       Severity: High
       Recommendation: Update to latest version
 
-[+] Report saved to: scan_report_192.168.1.48_20260108_143022.json
+[+] Report saved to: scan_report_[ip]_20260108_143022.json
+```
 
 ### Verify Installation
 ```bash
@@ -235,7 +239,7 @@ Vulnerabilities Found: 2
 python3 --version
 
 # Check dependencies
-python3 -c "import nmap, colorama, requests; print('✅ All dependencies installed')"
+python3 -c "import nmap, colorama, requests; print(' All dependencies installed')"
 
 # Check Nmap
 nmap --version
@@ -252,9 +256,9 @@ sudo apt install -y python3-nmap python3-pip nmap
 sudo pip3 install colorama requests --break-system-packages
 
 # Run scanner
-sudo python3 scanner.py 192.168.1.48
+sudo python3 scanner.py [ip]
 ```
 
 # Disclaimer
-IMPORTANT: This tool is intended for educational purposes and authorized security testing only.
+### IMPORTANT: This tool is intended for educational purposes and authorized security testing only.
 
